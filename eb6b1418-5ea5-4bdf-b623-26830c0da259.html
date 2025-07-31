@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 24.8.1.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="00:00:00"/>
+	<style type="text/css">
+		@page { size: 8.27in 11.69in; margin: 0.79in }
+		p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+		pre { background: transparent }
+		pre.western { font-family: "Liberation Mono", monospace; font-size: 10pt }
+		pre.cjk { font-family: "NSimSun", monospace; font-size: 10pt }
+		pre.ctl { font-family: "Liberation Mono", monospace; font-size: 10pt }
+	</style>
+</head>
+<body lang="en-US" link="#000080" vlink="#800000" dir="ltr"><pre class="western">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Happy Girlfriend Day&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .heart-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      display: none;
+    }
+
+    .heart {
+      width: 300px;
+      height: 270px;
+      background: red;
+      position: relative;
+      margin: auto;
+      transform: rotate(-45deg);
+      animation: pulse 2s infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: &quot;&quot;;
+      width: 300px;
+      height: 270px;
+      background: red;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before {
+      top: -150px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 150px;
+      top: 0;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1) rotate(-45deg); }
+      50% { transform: scale(1.1) rotate(-45deg); }
+      100% { transform: scale(1) rotate(-45deg); }
+    }
+
+    .message {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 1.2em;
+      width: 80%;
+      text-align: center;
+    }
+
+    .prompt {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .prompt button {
+      padding: 10px 20px;
+      font-size: 1em;
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;canvas id=&quot;fireworks&quot;&gt;&lt;/canvas&gt;
+
+&lt;div class=&quot;prompt&quot;&gt;
+  &lt;h2&gt;Happy Girlfriend Day 💖&lt;/h2&gt;
+  &lt;p&gt;Tap the button to see something special!&lt;/p&gt;
+  &lt;button onclick=&quot;showHeart()&quot;&gt;Show Love&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;heart-container&quot; id=&quot;heartContainer&quot;&gt;
+  &lt;div class=&quot;heart&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;message&quot;&gt;
+    Love you so much 💕&lt;br&gt;
+    You are not just a girlfriend to me,&lt;br&gt;
+    You are the best partner I can have in my life.&lt;br&gt;
+    I love you. ❤️
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  function showHeart() {
+    document.querySelector('.prompt').style.display = 'none';
+    document.getElementById('heartContainer').style.display = 'block';
+  }
+
+  // Fireworks effect
+  const canvas = document.getElementById('fireworks');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let particles = [];
+
+  function createFirework() {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height / 2;
+    const colors = ['#ff0043', '#ff9900', '#ffff00', '#00ffcc', '#33ccff'];
+    for (let i = 0; i &lt; 100; i++) {
+      particles.push({
+        x: x,
+        y: y,
+        radius: Math.random() * 2 + 1,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        angle: Math.random() * 2 * Math.PI,
+        speed: Math.random() * 5 + 2,
+        alpha: 1
+      });
+    }
+  }
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p, i) =&gt; {
+      p.x += Math.cos(p.angle) * p.speed;
+      p.y += Math.sin(p.angle) * p.speed;
+      p.alpha -= 0.01;
+      if (p.alpha &lt;= 0) particles.splice(i, 1);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.alpha;
+      ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+  }
+
+  setInterval(() =&gt; {
+    createFirework();
+  }, 1000);
+
+  function animate() {
+    drawParticles();
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+</body>
+</html>
